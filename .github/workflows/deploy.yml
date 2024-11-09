@@ -40,6 +40,9 @@ jobs:
           name: production-files
           path: ./dist
 
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+    
       - name: Run Lighthouse CI # GitHub Actions에 성능 테스트 추가
         run: lhci autorun
         
