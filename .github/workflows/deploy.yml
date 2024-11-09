@@ -40,6 +40,10 @@ jobs:
           name: production-files
           path: ./dist
 
+      - name: Run Lighthouse CI # GitHub Actions에 성능 테스트 추가
+        run: lhci autorun
+        
+
   deploy: # 두 번째 작업: 배포
     name: Deploy
     needs: build # build 작업이 완료되어야 실행됨
