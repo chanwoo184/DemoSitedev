@@ -4,6 +4,9 @@ on: # main 브랜치에 푸시할 때 트리거됨
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build: # 첫 번째 작업: 빌드
