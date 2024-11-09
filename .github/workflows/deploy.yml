@@ -4,6 +4,7 @@ on: # main 브랜치에 푸시할 때 트리거됨
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
