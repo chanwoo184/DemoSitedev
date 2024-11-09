@@ -40,11 +40,21 @@ jobs:
           name: production-files
           path: ./dist
 
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli
-    
-      - name: Run Lighthouse CI # GitHub Actions에 성능 테스트 추가
-        run: lhci autorun
+      # 서버 시작 (Lighthouse 성능 체크를 위한)
+      - name: Start server for Lighthouse
+        run: |
+          npm install -g serve
+          serve -s build &
+        env:
+          CI: true
+
+      # Lighthouse로 성능 및 웹 표준 검사
+      - name: Run Lighthouse for performance and web standards check
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: 'https://chanwoo184.github.io/DemoSitedev/'
+          uploadArtifacts: true
+          artifactName: 'lighthouse-report'
         
 
   deploy: # 두 번째 작업: 배포
