@@ -43,7 +43,7 @@ jobs:
           name: production-files
           path: ./dist
 
-      # 서버 시작 (Lighthouse 성능 체크를 위한)
+      # 성능 및 웹 표준 검사를 위한 자동화 시스템 실행
       - name: Start server for Lighthouse
         run: |
           npm install -g serve
@@ -51,7 +51,7 @@ jobs:
         env:
           CI: true
 
-      # Lighthouse로 성능 및 웹 표준 검사
+      # Lighthouse를 이용한 성능 및 웹 표준 검사 자동화 
       - name: Run Lighthouse for performance and web standards check
         uses: treosh/lighthouse-ci-action@v9
         with:
@@ -78,3 +78,13 @@ jobs:
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           publish_dir: ./dist
+
+      - name: build 실패 시 Slack으로 알립니다
+        uses: 8398a7/action-slack@v3
+        with:
+            status: ${{ job.status }}
+            author_name: 백엔드 빌드 실패 알림
+            fields: repo, message, commit, author, action, eventName, ref, workflow, job, took
+        env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: failure()
