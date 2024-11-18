@@ -3,17 +3,17 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // 컴포넌트 불러오기
 import SignIn from '@/components/sign-in/Sign-In.vue';
-import Home from '@/components/home/Home.vue';
+//import Home from '@/components/home/Home.vue';
 import HomeMain from '@/components/home/main/HomeMain.vue';
 import HomeWishlist from '@/components/home/wishlist/HomeWishlist.vue';
 import HomeSearch from '@/components/search/HomeSearch.vue';
 import HomePopular from '@/components/home/popular/HomePopular.vue';
 import MovieDetail from '@/views/MovieDetail.vue';
-
+import App from '@/App.vue';
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: App,
     children: [
       {
         path: '',
