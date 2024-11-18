@@ -59,7 +59,7 @@ export default {
 
   const fetchMovies = async () => {
     if (isLoading.value || !hasMore.value) return;
-      isLoading.value = true;
+    isLoading.value = true;
 
   try {
     const url =
@@ -78,33 +78,31 @@ export default {
     const newMovies = response.data.results;
 
     if (newMovies.length > 0) {
-      let filteredMovies = [...movies.value, ...newMovies];
+      let movieArray = [...movies.value, ...newMovies];
 
-      // 장르 필터 적용
-      if (props.genreCode !== "0") {
-        filteredMovies = filteredMovies.filter((movie) =>
-          movie.genre_ids.includes(Number(props.genreCode))
-        );
-      }
-
-      // 언어 필터 적용
+      // 필터링: 언어 및 평점 기준
       if (props.sortingOrder !== "all") {
-        filteredMovies = filteredMovies.filter(
+        movieArray = movieArray.filter(
           (movie) => movie.original_language === props.sortingOrder
         );
       }
-
-      // 평점 필터 적용
-      filteredMovies = filteredMovies.filter((movie) => {
-        if (props.voteAverage === -1) return true; // 전체 보기
-        if (props.voteAverage === -2) return movie.vote_average <= 4; // 4점 이하
+      movieArray = movieArray.filter((movie) => {
+        if (props.voteAverage === -1) return true;
+        if (props.voteAverage === -2) return movie.vote_average <= 4;
         return (
           movie.vote_average >= props.voteAverage &&
           movie.vote_average < props.voteAverage + 1
         );
       });
 
-      movies.value = filteredMovies;
+      // 정렬: 제목 기준 (알파벳 또는 가나다순)
+      if (props.sortingOrder === "en") {
+        movieArray.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (props.sortingOrder === "ko") {
+        movieArray.sort((a, b) => a.title.localeCompare(b.title, "ko"));
+      }
+
+      movies.value = movieArray;
       currentPage.value++;
     } else {
       hasMore.value = false;
