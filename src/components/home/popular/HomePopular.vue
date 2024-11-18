@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { faTh, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import MovieGrid from '@/views/views/MovieGrid.vue';
@@ -39,7 +39,8 @@ export default {
   },
   setup() {
     const apiKey = localStorage.getItem('TMDb-Key') || '';
-    const currentView = ref('grid'); // grid or list view를 기본값으로 설정 
+    const currentView = ref('grid');
+    const originalOverflow = ref(document.body.style.overflow);
 
     const setView = (view) => {
       currentView.value = view;
@@ -55,13 +56,17 @@ export default {
     };
 
     const enableScroll = () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = originalOverflow.value || 'auto';
     };
 
     const fetchURL = urlService.getURL4PopularMovies(apiKey);
 
     onMounted(() => {
-      disableScroll();
+      if (currentView.value === 'grid') disableScroll();
+    });
+
+    onUnmounted(() => {
+      enableScroll(); // 컴포넌트가 언마운트될 때 스크롤 복구
     });
 
     return {
