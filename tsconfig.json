@@ -15,6 +15,7 @@
     "types": [
       "webpack-env"
     ],
+    // 절대 경로 이용 
     "paths": {
       "@/*": [
         "src/*"
@@ -33,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/util/movie/URL.js"  ],
+, "src/util/movie/URL.js", "src/util/movie/wishlist.js"  ],
   "exclude": [
     "node_modules"
   ]

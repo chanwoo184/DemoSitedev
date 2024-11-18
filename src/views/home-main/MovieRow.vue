@@ -47,7 +47,7 @@
   
   <script>
   import axios from "axios";
-  import WishlistService from "../../util/movie/wishlist"; // Vue용 WishlistService로 교체하세요.
+  import { useWishlist } from '@/util/movie/wishlist'; // useWishlist 훅을 import
   
   export default {
     name: "MovieRow",
@@ -79,6 +79,9 @@
       atRightEdge() {
         return this.scrollAmount >= this.maxScroll;
       },
+      wishlist() {
+        return this.useWishlist.wishlist;
+      }
     },
     methods: {
       async fetchMovies() {
@@ -137,13 +140,14 @@
         }
       },
       toggleWishlist(movie) {
-        WishlistService.toggleWishlist(movie);
+        this.useWishlist.toggleWishlist(movie); // useWishlist의 toggleWishlist 메서드 사용
       },
       isInWishlist(movieId) {
-        return WishlistService.isInWishlist(movieId);
+        return this.useWishlist.isInWishlist(movieId); // useWishlist의 isInWishlist 메서드 사용
       },
     },
     async mounted() {
+      this.useWishlist = useWishlist(); // useWishlist 훅 호출
       await this.fetchMovies();
       window.addEventListener("resize", this.calculateMaxScroll);
     },
