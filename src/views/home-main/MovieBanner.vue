@@ -1,4 +1,4 @@
-
+<!--MovieBanner.vue-->
 <template>
     <div v-if="movie" class="banner" :style="{ backgroundImage: `url(${backdropUrl})` }">
       <div class="banner-content">

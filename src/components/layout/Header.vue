@@ -4,24 +4,27 @@
         <div class="header-left">
           <div class="logo">
             <router-link to="/">
-              <font-awesome-icon :icon="['fas', 'ticket']" style="height: 100%; color: #E50914;" />
+              <font-awesome-icon :icon="faFilm" style="height: 100%; color: #E50914;" />
             </router-link>
           </div>
           <nav class="nav-links desktop-nav">
             <ul>
               <li><router-link to="/">홈</router-link></li>
-              <li><router-link to="/popular">대세 콘텐츠</router-link></li>
-              <li><router-link to="/wishlist">내가 찜한 리스트</router-link></li>
+              <li><router-link to="/popular">인기 콘텐츠</router-link></li>
+              <li><router-link to="/wishlist">위시리스트</router-link></li>
               <li><router-link to="/search">찾아보기</router-link></li>
             </ul>
           </nav>
         </div>
         <div class="header-right">
+          <button class="icon-button" @click="toggleSearch">
+            <font-awesome-icon :icon="faSearch" />
+          </button>
           <button class="icon-button" @click="removeKey">
-            <font-awesome-icon :icon="['fas', 'user']" />
+            <font-awesome-icon :icon="faUser" />
           </button>
           <button class="icon-button mobile-menu-button" @click="toggleMobileMenu">
-            <font-awesome-icon :icon="['fas', 'bars']" />
+            <font-awesome-icon :icon="faBars" />
           </button>
         </div>
       </header>
@@ -29,7 +32,7 @@
       <!-- Mobile Navigation -->
       <div class="mobile-nav" :class="{ open: isMobileMenuOpen }">
         <button class="close-button" @click="toggleMobileMenu">
-          <font-awesome-icon :icon="['fas', 'times']" />
+          <font-awesome-icon :icon="faTimes" />
         </button>
         <nav>
           <ul>
@@ -40,6 +43,19 @@
           </ul>
         </nav>
       </div>
+
+      <!-- Search Bar -->
+      <div v-if="isSearchOpen" class="header-search">
+        <input type="text" v-model="query" @input="searchMovies" placeholder="영화 제목을 입력하세요" />
+        <div class="search-results">
+          <div v-for="movie in movies" :key="movie.id" class="search-result">
+            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id } }">
+              <img :src="getImageUrl(movie.poster_path)" alt="Movie Poster" />
+              <h3>{{ movie.title }}</h3>
+            </router-link>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -47,29 +63,56 @@
   import { ref, onMounted, onUnmounted } from 'vue';
   import { useRouter } from 'vue-router';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { faUser, faTicket, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+  import { faUser, faBars, faTimes, faFilm, faSearch } from '@fortawesome/free-solid-svg-icons';
+  import axios from 'axios';
   
   export default {
     components: {
-      FontAwesomeIcon
+      FontAwesomeIcon,
     },
     setup() {
       const router = useRouter();
       const isScrolled = ref(false);
       const isMobileMenuOpen = ref(false);
+      const isSearchOpen = ref(false);
+      const query = ref('');
+      const movies = ref([]);
   
+      // 스크롤에 따라 헤더 배경 변경
       const handleScroll = () => {
         isScrolled.value = window.scrollY > 50;
       };
   
+      // 모바일 메뉴 열기/닫기
       const toggleMobileMenu = () => {
         isMobileMenuOpen.value = !isMobileMenuOpen.value;
       };
   
+      // 검색 열기/닫기
+      const toggleSearch = () => {
+        isSearchOpen.value = !isSearchOpen.value;
+      };
+  
+      // 로그아웃 처리
       const removeKey = () => {
         localStorage.removeItem('TMDb-Key');
         router.push('/signin');
       };
+  
+      // 영화 검색
+      const searchMovies = async () => {
+        if (query.value.length < 2) return;
+        try {
+          const response = await axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=81f42d2de384021ea4f2689001e1860a&language=ko-KR&query=${query.value}`
+          );
+          movies.value = response.data.results;
+        } catch (error) {
+          console.error('Error searching movies:', error);
+        }
+      };
+  
+      const getImageUrl = (path) => `https://image.tmdb.org/t/p/w300${path}`;
   
       onMounted(() => {
         window.addEventListener('scroll', handleScroll);
@@ -80,16 +123,28 @@
       });
   
       return {
+        faUser,
+        faFilm,
+        faBars,
+        faTimes,
+        faSearch,
         isScrolled,
         isMobileMenuOpen,
+        isSearchOpen,
+        query,
+        movies,
         toggleMobileMenu,
-        removeKey
+        toggleSearch,
+        removeKey,
+        searchMovies,
+        getImageUrl,
       };
-    }
+    },
   };
   </script>
   
   <style scoped>
+  /* 기존 스타일 그대로 유지 */
   .app-header {
     height: 40px;
     display: flex;
@@ -207,6 +262,41 @@
     cursor: pointer;
   }
   
+  .header-search {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: #222;
+    padding: 20px;
+    z-index: 100;
+  }
+  
+  .header-search input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .search-results {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .search-result {
+    width: calc(33.333% - 20px);
+    text-align: center;
+  }
+  
+  .search-result img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
   @media (max-width: 768px) {
     .desktop-nav {
       display: none;
@@ -231,4 +321,3 @@
     }
   }
   </style>
-  
