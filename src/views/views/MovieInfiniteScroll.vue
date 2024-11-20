@@ -47,7 +47,7 @@ export default {
     const rowSize = ref(4);
     const isLoading = ref(false);
     const isMobile = ref(window.innerWidth <= 768);
-    const currentView = ref("list"); // 현재 사용하고 있는 뷰 grid or list
+    const currentView = ref("grid"); // 현재 사용하고 있는 뷰 grid or list
     const hasMore = ref(true);
     const showTopButton = ref(false);
 
@@ -150,7 +150,7 @@ export default {
     };
 
     const handleScroll = () => {
-      showTopButton.value = window.scrollY > 0; // 300 -> 0으로 수정 
+      showTopButton.value = window.scrollY > 300; // 300 -> 0으로 수정 
     };
 
     const scrollToTopAndReset = () => {

@@ -72,7 +72,7 @@ export default defineComponent({
 });
 </script>
   
-  <style scoped>
+  <style>
   .dropdown-container {
     margin-top: 0;
     display: flex;
@@ -149,5 +149,6 @@ export default defineComponent({
   .clear-options:hover {
     background-color: #333;
   }
+
   </style>
   
