@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <Banner :movie="featuredMovie" />
-    <MovieRow title="인기 영화" :fetchUrl="popularMoviesUrl" />
-    <MovieRow title="최신 영화" :fetchUrl="newReleasesUrl" />
-    <MovieRow title="액션 영화" :fetchUrl="actionMoviesUrl" />
+    <MovieRow title="Popular Movie" :fetchUrl="popularMoviesUrl" />
+    <MovieRow title="Latest Movie" :fetchUrl="newReleasesUrl" />
+    <MovieRow title="Action Movie" :fetchUrl="actionMoviesUrl" />
   </div>
 </template>
 
