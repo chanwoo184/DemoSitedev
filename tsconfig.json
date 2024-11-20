@@ -34,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/util/movie/URL.js", "src/util/movie/wishlist.js"  ],
+, "src/util/movie/URL.js", "src/util/movie/wishlist.js", "src/guards/authGuard.js"  ],
   "exclude": [
     "node_modules"
   ]

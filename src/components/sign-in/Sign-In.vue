@@ -60,6 +60,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { authService } from '@/util/auth/authService';
+import { useToast } from "vue-toastification";
 
 export default {
   setup() {
@@ -77,6 +78,7 @@ export default {
     const isRegisterEmailFocused = ref(false);
     const isRegisterPasswordFocused = ref(false);
     const isConfirmPasswordFocused = ref(false);
+    const toast = useToast(); // Custom Toast 라이브러리 사용 
 
     const isLoginFormValid = computed(() => !!email.value && !!password.value);
     const isRegisterFormValid = computed(() => {
@@ -108,21 +110,22 @@ export default {
     };
 
     const handleLogin = async () => {
-      try {
-        await authService.tryLogin(email.value, password.value);
-        router.push('/');
-      } catch (error) {
-        alert(error.message);
-      }
-    };
+    try {
+      await authService.tryLogin(email.value, password.value);
+      toast.success("로그인 성공! 🎉", { timeout: 3000 });
+      router.push('/');
+    } catch (error) {
+      toast.error(`로그인 실패: ${error.message}`, { timeout: 3000 });
+    }
+};
 
     const handleRegister = async () => {
       try {
         await authService.tryRegister(registerEmail.value, registerPassword.value);
-        alert('Registration successful');
+        toast.success("회원가입 성공! 🎉", { timeout: 3000 });
         toggleCard();
       } catch (error) {
-        alert(error.message);
+        toast.error(`회원가입 실패: ${error.message}`, { timeout: 3000 });
       }
     };
 
