@@ -9,7 +9,7 @@
         </div>
         <nav class="nav-links desktop-nav">
           <ul>
-            <li><router-link to="/">Home</router-link></li>
+            <li><router-link to="/" exact>Home</router-link></li>
             <li><router-link to="/popular">Popular</router-link></li>
             <li><router-link to="/wishlist">Wislist</router-link></li>
             <li><router-link to="/search">Search</router-link></li>
@@ -183,7 +183,6 @@ export default {
 };
 </script>
 
-  
   <style scoped>
   /* 기존 스타일 그대로 유지 */
   .app-header {
@@ -237,9 +236,11 @@ export default {
     transition: color 0.3s ease;
   }
   
-  .nav-links a:hover {
-    color: #51b985;
+  .nav-links a:hover,
+  .nav-links a.exact-active-link {
+    color: #21e077;
   }
+
   
   .icon-button {
     background: none;
