@@ -60,7 +60,7 @@
     text-align: center;
   }
   .movie-detail img {
-    width: 100%;
+    width: 50%;
     border-radius: 8px;
   }
   .loading {

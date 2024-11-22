@@ -21,7 +21,7 @@
             <font-awesome-icon :icon="faSearch" />
           </button>
           <button class="icon-button" @click="removeKey">
-            <font-awesome-icon :icon="faUser" />
+            <font-awesome-icon :icon="faRightFromBracket" />
           </button>
           <button class="icon-button mobile-menu-button" @click="toggleMobileMenu">
             <font-awesome-icon :icon="faBars" />
@@ -63,7 +63,7 @@
   import { ref, onMounted, onUnmounted } from 'vue';
   import { useRouter } from 'vue-router';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { faUser, faBars, faTimes, faFilm, faSearch } from '@fortawesome/free-solid-svg-icons';
+  import { faUser, faBars, faTimes, faFilm, faSearch, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
   import axios from 'axios';
   
   export default {
@@ -128,6 +128,7 @@
         faBars,
         faTimes,
         faSearch,
+        faRightFromBracket,
         isScrolled,
         isMobileMenuOpen,
         isSearchOpen,
@@ -284,17 +285,19 @@
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
+    justify-content: center;
   }
   
   .search-result {
-    width: calc(33.333% - 20px);
+    width: calc(20% - 10px);
     text-align: center;
   }
   
   .search-result img {
-    width: 100%;
-    border-radius: 8px;
+    width: 30%;
+    border-radius: 4px;
+    
   }
   
   @media (max-width: 768px) {
