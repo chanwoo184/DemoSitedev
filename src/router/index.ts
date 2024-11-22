@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthGuard } from '@/guards/authGuard'; // 인증 가드 추가
 
 // 컴포넌트 불러오기
@@ -15,22 +15,22 @@ const routes = [
     component: () => import('@/App.vue'),
     children: [
       {
-        path: '',
+        path: '/DemoSitedev/',
         component: HomeMain,
         meta: { requiresAuth: true }, // 인증이 필요한 라우트
       },
       {
-        path: 'popular',
+        path: '/DemoSitedev/popular',
         component: HomePopular,
         meta: { requiresAuth: true },
       },
       {
-        path: 'wishlist',
+        path: '/DemoSitedev/wishlist',
         component: HomeWishlist,
         meta: { requiresAuth: true },
       },
       {
-        path: 'search',
+        path: '/DemoSitedev/search',
         component: HomeSearch,
         meta: { requiresAuth: true },
       },
@@ -50,7 +50,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
