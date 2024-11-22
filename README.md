@@ -42,7 +42,7 @@ npm install
 ```
 npm run serve
 ```
-웹사이트는 기본적으로 http://localhost:8080에서 확인할 수 있습니다.
+웹사이트는 기본적으로 http://localhost:8080 에서 확인할 수 있습니다.
 
 ### 배포 환경에 사용할 파일 생성
 ```
