@@ -76,6 +76,7 @@ export default defineComponent({
   .dropdown-container {
     margin-top: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 15px;
   }
@@ -150,5 +151,31 @@ export default defineComponent({
     background-color: #333;
   }
 
+    /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    .dropdown-container {
+      flex-direction: column; /* 드롭다운과 버튼을 세로로 정렬 */
+      gap: 10px;
+    }
+
+    .custom-select {
+      min-width: 100px; /* 드롭다운 너비 축소 */
+    }
+
+    .select-selected {
+      font-size: 14px; /* 글꼴 크기 축소 */
+      padding: 8px;
+    }
+
+    .select-items div {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    .clear-options {
+      font-size: 14px;
+      padding: 8px;
+      min-width: 100px;
+    }
+  }
   </style>
-  

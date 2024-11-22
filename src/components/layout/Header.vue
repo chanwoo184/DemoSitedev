@@ -9,10 +9,10 @@
         </div>
         <nav class="nav-links desktop-nav">
           <ul>
-            <li><router-link to="/">홈</router-link></li>
-            <li><router-link to="/popular">인기 콘텐츠</router-link></li>
-            <li><router-link to="/wishlist">위시리스트</router-link></li>
-            <li><router-link to="/search">찾아보기</router-link></li>
+            <li><router-link to="/">Home</router-link></li>
+            <li><router-link to="/popular">Popular</router-link></li>
+            <li><router-link to="/wishlist">Wislist</router-link></li>
+            <li><router-link to="/search">Search</router-link></li>
           </ul>
         </nav>
       </div>
@@ -36,10 +36,10 @@
       </button>
       <nav>
         <ul>
-          <li><router-link to="/" @click="toggleMobileMenu">홈</router-link></li>
-          <li><router-link to="/popular" @click="toggleMobileMenu">대세 콘텐츠</router-link></li>
-          <li><router-link to="/wishlist" @click="toggleMobileMenu">내가 찜한 리스트</router-link></li>
-          <li><router-link to="/search" @click="toggleMobileMenu">찾아보기</router-link></li>
+          <li><router-link to="/" @click="toggleMobileMenu">Home</router-link></li>
+          <li><router-link to="/popular" @click="toggleMobileMenu">Popular</router-link></li>
+          <li><router-link to="/wishlist" @click="toggleMobileMenu">Wishlist</router-link></li>
+          <li><router-link to="/search" @click="toggleMobileMenu">Search</router-link></li>
         </ul>
       </nav>
     </div>
@@ -203,7 +203,7 @@ export default {
   
   .app-header:hover,
   .app-header.scrolled {
-    background-color: #141414;
+    background-color: #a92d33;
   }
   
   .header-left,
@@ -238,13 +238,13 @@ export default {
   }
   
   .nav-links a:hover {
-    color: #b3b3b3;
+    color: #51b985;
   }
   
   .icon-button {
     background: none;
     border: none;
-    color: white;
+    color: black;
     font-size: 1.2rem;
     margin-left: 20px;
     cursor: pointer;
@@ -331,12 +331,36 @@ export default {
   
   .search-result {
     width: calc(15% - 15px);
-    text-align: justify;
+    text-align: center;
+    object-fit: cover;
   }
   
   .search-result img {
     width: 30%;
     border-radius: 4px;
+    object-fit: cover;
+  }
+
+  /* 모바일 화면에서 포스터 크기 조정 */
+  @media (max-width: 768px) {
+    .search-result {
+      width: calc(30% - 10px); /* 모바일에서는 한 줄에 3개씩 */
+    }
+
+    .search-result img {
+      width: 100%;
+    }
+  }
+
+  /* 태블릿 크기에서 포스터 크기 조정 */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .search-result {
+      width: calc(20% - 10px); /* 태블릿에서는 한 줄에 5개씩 */
+    }
+
+    .search-result img {
+      width: 100%;
+    }
   }
 
   .recent-searches {
@@ -382,8 +406,6 @@ export default {
   margin-left: 10px;
 }
 
-
-  
   @media (max-width: 768px) {
     .desktop-nav {
       display: none;
