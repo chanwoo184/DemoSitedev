@@ -52,6 +52,7 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+  linkExactActiveClass: 'exact-active-link', // 정확히 일치하는 경우 적용할 클래스
 });
 
 // 인증 가드 적용

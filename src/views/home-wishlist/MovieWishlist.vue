@@ -9,10 +9,10 @@
           <div class="movie-title">{{ movie.title }}</div>
           <div class="wishlist-indicator">👍</div>
         </div>
-      </div>
+      </div> 
     </div>
     <div v-if="!wishlist.length" class="empty-wishlist">
-      위시리스트가 비어 있습니다.
+      Wishlist is empty.
     </div>
     <div class="pagination" v-if="totalPages > 1">
       <button @click="prevPage" :disabled="currentPage === 1">&lt; 이전</button>
