@@ -4,8 +4,6 @@
       <div class="banner-content">
         <h1>{{ movie.title }}</h1>
         <p>{{ movie.overview }}</p>
-        <button class="play-btn title-btn">재생</button>
-        <button class="info-btn title-btn">상세 정보</button>
       </div>
     </div>
   </template>

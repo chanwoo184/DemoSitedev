@@ -112,20 +112,20 @@ export default {
     const handleLogin = async () => {
     try {
       await authService.tryLogin(email.value, password.value);
-      toast.success("로그인 성공! 🎉", { timeout: 3000 });
+      toast.success("로그인 성공! 🎉", { timeout: 2000 });
       router.push('/');
     } catch (error) {
-      toast.error(`로그인 실패: ${error.message}`, { timeout: 3000 });
+      toast.error(`로그인 실패: ${error.message}`, { timeout: 2000 });
     }
 };
 
     const handleRegister = async () => {
       try {
         await authService.tryRegister(registerEmail.value, registerPassword.value);
-        toast.success("회원가입 성공! 🎉", { timeout: 3000 });
+        toast.success("회원가입 성공! 🎉", { timeout: 2000 });
         toggleCard();
       } catch (error) {
-        toast.error(`회원가입 실패: ${error.message}`, { timeout: 3000 });
+        toast.error(`회원가입 실패: ${error.message}`, { timeout: 2000 });
       }
     };
 

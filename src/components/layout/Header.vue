@@ -17,6 +17,7 @@
         </nav>
       </div>
       <div class="header-right">
+        <div v-if="user" class="user-id">환영합니다🎉 {{ user.id }}님</div>
         <button class="icon-button" @click="toggleSearch">
           <font-awesome-icon :icon="faSearch" />
         </button>
@@ -92,6 +93,16 @@ export default {
     const recentSearches = ref(
       JSON.parse(localStorage.getItem('recentSearches')) || []
     );
+    const user = ref(null); // 사용자 아이디 가져오기
+
+    // 현재 사용자 로드
+    const loadUser = () => {
+      const currentEmail = localStorage.getItem('currentUserEmail');
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const matchedUser = users.find(user => user.id === currentEmail);
+      user.value = matchedUser || null;
+    };
+
 
     // 검색 기록 저장
     const saveRecentSearch = () => {
@@ -131,6 +142,8 @@ export default {
     // 로그아웃 처리
     const removeKey = () => {
       localStorage.removeItem('TMDb-Key');
+      localStorage.removeItem('currentUserEmail');
+      user.value = null; // 사용자 정보 초기화
       router.push('/signin');
     };
 
@@ -152,6 +165,7 @@ export default {
 
     onMounted(() => {
       window.addEventListener('scroll', handleScroll);
+      loadUser();
     });
 
     onUnmounted(() => {
@@ -178,6 +192,7 @@ export default {
       getImageUrl,
       deleteSearch,
       clearRecentSearches,
+      user
     };
   },
 };
@@ -405,6 +420,11 @@ export default {
   cursor: pointer;
   font-size: 0.75rem;
   margin-left: 10px;
+}
+.user-id {
+  color: #e5e5e5;
+  margin-right: 10px;
+  font-size: 1rem;
 }
 
   @media (max-width: 768px) {
