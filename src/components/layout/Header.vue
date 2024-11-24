@@ -424,7 +424,8 @@ export default {
 .user-id {
   color: #e5e5e5;
   margin-right: 10px;
-  font-size: 1rem;
+  font-size: 0.7rem;
+  white-space: nowrap;
 }
 
   @media (max-width: 768px) {
