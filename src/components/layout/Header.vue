@@ -17,7 +17,7 @@
         </nav>
       </div>
       <div class="header-right">
-        <div v-if="user" class="user-id">환영합니다🎉 {{ user.id }}님</div>
+        <div v-if="user" class="user-id">Welcome🎉 {{ user.id }}</div>
         <button class="icon-button" @click="toggleSearch">
           <font-awesome-icon :icon="faSearch" />
         </button>
@@ -422,11 +422,25 @@ export default {
   margin-left: 10px;
 }
 .user-id {
-  color: #e5e5e5;
-  margin-right: 10px;
-  font-size: 0.7rem;
-  white-space: nowrap;
+  color: #ffffff; /* 텍스트 색상을 깔끔한 화이트로 설정 */
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* 화려한 그라디언트 배경 */
+  padding: 5px 15px; /* 텍스트 주위에 적당한 간격 추가 */
+  margin-right: 20px; /* 우측 여백 조정 */
+  font-size: 0.9rem; /* 글씨 크기를 적당히 키워 가독성 향상 */
+  font-weight: bold; /* 텍스트를 강조 */
+  border-radius: 15px; /* 둥근 모서리로 버튼 같은 느낌 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 살짝 튀어나온 듯한 그림자 */
+  white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 애니메이션 추가 */
+  cursor: pointer; /* 사용자 경험을 위해 포인터 커서 추가 */
 }
+
+.user-id:hover {
+  transform: scale(1.1); /* 호버 시 크기를 약간 키워서 강조 효과 */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* 그림자 강조 */
+  background: linear-gradient(135deg, #feb47b, #ff7e5f); /* 호버 시 그라디언트 반전 */
+}
+
 
   @media (max-width: 768px) {
     .desktop-nav {
@@ -449,6 +463,20 @@ export default {
     a {
       text-align: left;
       font-size: 1.15rem !important;
+    }
+
+    .user-id {
+      font-size: 0.6rem; /* 글씨 크기 축소 */
+      margin-right: 10px; /* 오른쪽 여백 감소 */
+      padding: 4px 10px; /* 내부 패딩 축소 */
+      max-width: 120px; /* 최대 너비 조정 */
+    }
+
+    .header-right {
+      display: flex;
+      flex-wrap: wrap; /* 모바일에서 요소가 겹치지 않도록 감싸기 설정 */
+      justify-content: flex-end; /* 오른쪽 정렬 */
+      gap: 5px; /* 요소 간 간격 추가 */
     }
   }
   </style>
