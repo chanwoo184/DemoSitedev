@@ -1,16 +1,15 @@
 export function useAuthGuard(router) {
-  if (!router || typeof router.beforeEach !== 'function') {
-    console.error("Router instance is undefined or invalid.");
-    return;
-  }
-
   router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('TMDb-Key') !== null;
+    // 각각의 토큰 보유 여부 확인
+    const hasKakao = localStorage.getItem('kakaoAccessToken') !== null;
+    const hasTMDb  = localStorage.getItem('TMDb-Key') !== null;
+
+    // 하나도 없으면 미인증
+    const isAuthenticated = hasKakao && hasTMDb;
 
     if (to.meta.requiresAuth && !isAuthenticated) {
-      next('/signin'); // 로그인 페이지로 리디렉션
-    } else {
-      next(); // 해당 라우트로
+      return next('/signin');
     }
+    next();
   });
 }

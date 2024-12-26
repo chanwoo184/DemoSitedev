@@ -1,5 +1,9 @@
 <template>
   <div class="movie-grid" ref="gridContainer">
+    <!-- 왼쪽 상단 문구 추가 -->
+    <div class="wishlist-header">
+      <h2>❤️ Add to Wishlist</h2>
+    </div>
     <div :class="['grid-container', currentView]">
       <div v-for="(movieGroup, i) in visibleWishlistMovies" :key="i" 
            :class="['movie-row', { full: movieGroup.length === rowSize }]">
@@ -9,10 +13,10 @@
           <div class="movie-title">{{ movie.title }}</div>
           <div class="wishlist-indicator">👍</div>
         </div>
-      </div>
+      </div> 
     </div>
     <div v-if="!wishlist.length" class="empty-wishlist">
-      위시리스트가 비어 있습니다.
+      Wishlist is empty.
     </div>
     <div class="pagination" v-if="totalPages > 1">
       <button @click="prevPage" :disabled="currentPage === 1">&lt; 이전</button>
@@ -144,7 +148,22 @@ export default {
     background-color: rgba(229, 9, 20, 0.5);
     box-shadow: 0 0 5px rgba(229, 9, 20, 0.7);
   }
-  
+    /* 상단 헤더 스타일 */
+.wishlist-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #4b4747;
+  color: #e5e5e5;
+  border-bottom: 1px solid #333;
+  margin-bottom: 20px;
+}
+
+.wishlist-header h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
   .movie-grid {
     width: 100%;
     height: calc(100vh - 200px);
@@ -152,13 +171,14 @@ export default {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
   
   .grid-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start; /* 상단부터 정렬 */
   }
   
   .movie-row {
@@ -219,7 +239,7 @@ export default {
     text-align: center;
     font-size: 18px;
     margin-top: 20px;
-    color: #666;
+    color: #a95757;
   }
   
   .pagination {
@@ -247,7 +267,7 @@ export default {
   @media (max-width: 768px) {
     .movie-grid {
       width: 100%;
-      height: calc(90svh - 200px);
+      height: calc(110svh - 150px);
       margin-bottom: 40px;
       margin-top: 30px;
     }

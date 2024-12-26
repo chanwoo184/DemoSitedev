@@ -1,12 +1,16 @@
 # TMDB 기반 영화 웹사이트 (Vue.js)
 
+Vue.js와 TMDB API를 활용한 영화 정보 제공 사이트입니다. 사용자들은 최신 영화, 인기 영화, 개봉 예정 영화, 최고 평점 영화 등 다양한 카테고리의 영화 정보를 탐색하고, 영화 검색 기능을 통해 원하는 영화를 찾을 수 있습니다.
+
+[![Screenshot](src/assets/webpage.png)](https://chanwoo184.github.io/DemoSitedev/)
+
 ## 프로젝트 기본 정보
 
 이 프로젝트는 TMDB (The Movie Database) API를 활용하여 넷플릭스와 유사한 영화 정보를 제공하는 웹사이트입니다. 사용자는 인기 영화, 최신 영화, 장르별 영화, 영화 상세 정보 등을 조회할 수 있으며, 개인의 위시리스트에 영화를 추가하는 기능도 포함하고 있습니다. 전체적인 디자인은 넷플릭스의 UI에서 영감을 받아 Vue.js를 사용해 제작되었습니다.
 
 프로젝트 이름: Vue-DemoSite
 
-배포 링크:[Click here](https://chanwoo184.github.io/DemoSitedev/).
+배포 링크: [Click here](https://chanwoo184.github.io/DemoSitedev/).
 
 ## 기술 스택
 
@@ -42,7 +46,7 @@ npm install
 ```
 npm run serve
 ```
-웹사이트는 기본적으로 http://localhost:8080에서 확인할 수 있습니다.
+웹사이트는 기본적으로 http://localhost:8080 에서 확인할 수 있습니다.
 
 ### 배포 환경에 사용할 파일 생성
 ```

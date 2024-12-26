@@ -9,6 +9,7 @@ export const authService = {
         if (user) {
           if (saveToken) {
             localStorage.setItem('TMDb-Key', user.password);
+            localStorage.setItem('currentUserEmail', email);
           }
           resolve(user);
         } else {

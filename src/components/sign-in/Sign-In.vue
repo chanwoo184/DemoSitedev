@@ -1,3 +1,4 @@
+<!--@/components/sign-in/Sign-In.vue-->
 <template>
     <div>
       <div class="bg-image"></div>
@@ -48,6 +49,16 @@
                 </span>
                 <button :disabled="!isRegisterFormValid">Register</button>
               </form>
+              
+                <!-- 카카오 로그인 버튼 이미지 삽입 -->
+              <div class="kakao-btn-wrapper">
+                <img
+                  :src="kakaoBtnSrc"
+                  alt="카카오 로그인"
+                  style="cursor: pointer;"
+                  @click="handleKakaoLogin"
+               />
+              </div>
               <a href="javascript:void(0)" class="account-check" @click="toggleCard">Don't have an account? <b>Sign up</b></a>
             </div>
           </div>
@@ -61,7 +72,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { authService } from '@/util/auth/authService';
 import { useToast } from "vue-toastification";
-
+import kakaoBtnPng from '@/assets/kakao_login.png';
 export default {
   setup() {
     const router = useRouter();
@@ -79,7 +90,7 @@ export default {
     const isRegisterPasswordFocused = ref(false);
     const isConfirmPasswordFocused = ref(false);
     const toast = useToast(); // Custom Toast 라이브러리 사용 
-
+    const kakaoBtnSrc = kakaoBtnPng;
     const isLoginFormValid = computed(() => !!email.value && !!password.value);
     const isRegisterFormValid = computed(() => {
       return !!registerEmail.value &&
@@ -92,6 +103,63 @@ export default {
     const toggleCard = () => {
       isLoginVisible.value = !isLoginVisible.value;
     };
+
+    // 실제 카카오 로그인을 위한 메서드 (예시)
+const handleKakaoLogin = () => {
+  console.log('카카오 로그인 버튼 클릭!');
+
+   //(옵션) 만약 어디에서도 init하지 않았다면, 아래 로직을 남겨주세요.
+   if (!window.Kakao?.isInitialized()) {
+     window.Kakao.init(process.env.VUE_APP_KAKAO_JS_KEY);
+     console.log('Kakao SDK re-initialized');
+   }
+
+  // 로그인 요청
+  window.Kakao.Auth.login({
+    // 이메일도 함께 요청
+    scope: 'profile_nickname',
+    success: (authObj) => {
+      console.log('카카오 로그인 성공:', authObj);
+
+      // 카카오 SDK에서 기본적으로 accessToken을 관리하지만,
+      // 필요하다면 수동으로 setAccessToken() 호출, localStorage에도 저장 가능
+      window.Kakao.Auth.setAccessToken(authObj.access_token);
+      localStorage.setItem('kakaoAccessToken', authObj.access_token);
+      localStorage.setItem('TMDb-Key', process.env.VUE_APP_TMDB_API_KEY);
+      // 사용자 정보 요청 (이메일/프로필)
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: (res) => {
+          console.log('카카오 사용자 정보:', res);
+          // 예: 닉네임/이메일 획득
+          const nickname = res.kakao_account?.profile?.nickname;
+          const email = res.kakao_account?.email; // account_email 동의 필수
+
+           // localStorage에 저장 (키 이름은 예시 "kakaoProfile" 등으로)
+          const kakaoProfile = {
+            nickname,
+          };
+        localStorage.setItem('kakaoProfile', JSON.stringify(kakaoProfile));
+
+          toast.success(`카카오 로그인 성공! 닉네임: ${nickname}`, { timeout: 2000 });
+          
+          // 추가로 회원 DB 가입/로그인 로직 등 필요하다면 이곳에서 처리
+
+          // 최종적으로 메인 페이지로 이동
+          router.push('/');
+        },
+        fail: (error) => {
+          console.error('카카오 사용자 정보 요청 실패:', error);
+          toast.error('사용자 정보 요청 실패!', { timeout: 2000 });
+        },
+      });
+    },
+    fail: (err) => {
+      console.error('카카오 로그인 실패:', err);
+      toast.error(`카카오 로그인 실패: ${err.message}`, { timeout: 2000 });
+    },
+  });
+};
 
     const focusInput = (inputName) => {
       if (inputName === 'email') isEmailFocused.value = true;
@@ -112,20 +180,20 @@ export default {
     const handleLogin = async () => {
     try {
       await authService.tryLogin(email.value, password.value);
-      toast.success("로그인 성공! 🎉", { timeout: 3000 });
+      toast.success("로그인 성공! 🎉", { timeout: 2000 });
       router.push('/');
     } catch (error) {
-      toast.error(`로그인 실패: ${error.message}`, { timeout: 3000 });
+      toast.error(`로그인 실패: ${error.message}`, { timeout: 2000 });
     }
 };
 
     const handleRegister = async () => {
       try {
         await authService.tryRegister(registerEmail.value, registerPassword.value);
-        toast.success("회원가입 성공! 🎉", { timeout: 3000 });
+        toast.success("회원가입 성공! 🎉", { timeout: 2000 });
         toggleCard();
       } catch (error) {
-        toast.error(`회원가입 실패: ${error.message}`, { timeout: 3000 });
+        toast.error(`회원가입 실패: ${error.message}`, { timeout: 2000 });
       }
     };
 
@@ -150,6 +218,8 @@ export default {
       blurInput,
       handleLogin,
       handleRegister,
+      kakaoBtnSrc,
+      handleKakaoLogin,
     };
   },
 };
@@ -173,9 +243,9 @@ export default {
    left: 0;
    right: 0;
    bottom: 0;
-   background-image: url('https://images.unsplash.com/photo-1507041957456-9c397ce39c97?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+   background-image: url('@/assets/cinema.jpg');
    background-size: cover;
-   background-position: center;
+   background-position: center; 
  }
 
 .bg-image::before {
@@ -434,6 +504,16 @@ button:hover {
   transform: translateX(-50%);
 }
 
+.kakao-btn-wrapper {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.kakao-login-btn {
+  width: 180px;
+  cursor: pointer;
+}
 .card form {
   transform:translateX(0px);
   transition: all 0.3s 0.4s ease;
@@ -450,17 +530,12 @@ button:hover {
 }
 
 .account-check {
-  width:100%;
-  text-align:center;
-  position:absolute;
-  bottom:15px;
-  left:0;
-  opacity:0;
-  text-decoration:none;
-  visibility:hidden;
-  color:#fff;
-  padding:10px;
-  transition: all 0.2s ease;
+  display: block;
+  margin-top: 1rem;  /* 버튼이랑 간격 */
+  text-align: center;
+  color: #000;       /* 배경이 흰색이면 #000, 어두우면 #fff */
+  font-weight: bold;
+  /* position, bottom, visibility, opacity 등 제거 */
 }
 
 .account-check:active {

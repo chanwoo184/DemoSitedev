@@ -257,4 +257,18 @@ export default {
   opacity: 0.5;
   cursor: not-allowed;
 }
+/* 반응형 설정 */
+@media (max-width: 768px) {
+  .movie-card {
+    width: 100px; /* 모바일에서 카드 크기 조정 */
+  }
+
+  .movie-card img {
+    width: 70%;
+  }
+
+  .pagination {
+    margin-top: 20px; /* 모바일에서 페이지네이션 간격 조정 */
+  }
+}
 </style>
