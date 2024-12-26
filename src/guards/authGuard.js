@@ -10,7 +10,7 @@ export function useAuthGuard(router) {
     if (to.meta.requiresAuth && !isAuthenticated) {
       next('/signin'); // 로그인 페이지로 리디렉션
     } else {
-      next(); // 해당 라우트로 진행
+      next(); // 해당 라우트로
     }
   });
 }
