@@ -89,7 +89,7 @@ API Key는 TMDB 사이트에서 발급받을 수 있습니다.
 │   │   └── sign-in/       # 로그인 관련 컴포넌트들
 │   ├── guards/            # 라우터 가드 관련 코드 (인증 관련)
 │   │   ├── authGuard.d.ts # 인증 가드 TypeScript 타입 정의
-│   │   └── authGuard.js   # 인증 가드 로직
+│   │   └── authGuard.js   # 인증 가드 
 │   ├── models/            # 데이터 모델 정의
 │   │   └── types.ts       # 타입스크립트 타입 정의 파일
 │   ├── router/            # 라우터 관련 코드
