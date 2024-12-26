@@ -161,52 +161,6 @@ const handleKakaoLogin = () => {
   });
 };
 
-    // 카카오 로그아웃을 위한 메서드
-const handleKakaoLogout = () => {
-  console.log('카카오 로그아웃 버튼 클릭!');
-
-  // Kakao SDK가 초기화되어 있는지 확인
-  if (window.Kakao && window.Kakao.isInitialized()) {
-    // 로그아웃 요청
-    window.Kakao.Auth.logout(() => {
-      console.log('카카오 로그아웃 성공');
-
-      // localStorage에서 토큰 및 프로필 정보 제거
-      localStorage.removeItem('kakaoAccessToken');
-      localStorage.removeItem('kakaoProfile');
-      localStorage.removeItem('TMDb-Key');
-
-      // 로그아웃 성공 메시지 표시
-      toast.success('카카오 로그아웃 성공!', { timeout: 2000 });
-
-      // 원하는 리디렉션 URL로 이동 (예: 로그인 페이지)
-      router.push('/signin'); // 또는 원하는 경로로 변경
-    });
-  } else {
-    console.warn('Kakao SDK가 초기화되지 않았습니다.');
-    // 필요한 경우 SDK를 초기화하거나 사용자에게 알림
-    window.Kakao.init(process.env.VUE_APP_KAKAO_JS_KEY);
-    console.log('Kakao SDK 초기화 완료');
-
-    // 초기화 후 로그아웃 시도
-    window.Kakao.Auth.logout(() => {
-      console.log('카카오 로그아웃 성공');
-
-      // localStorage에서 토큰 및 프로필 정보 제거
-      localStorage.removeItem('kakaoAccessToken');
-      localStorage.removeItem('kakaoProfile');
-      localStorage.removeItem('TMDb-Key');
-
-      // 로그아웃 성공 메시지 표시
-      toast.success('카카오 로그아웃 성공!', { timeout: 2000 });
-
-      // 원하는 리디렉션 URL로 이동 (예: 로그인 페이지)
-      router.push('/signin'); // 또는 원하는 경로로 변경
-    });
-  }
-};
-
-
     const focusInput = (inputName) => {
       if (inputName === 'email') isEmailFocused.value = true;
       if (inputName === 'password') isPasswordFocused.value = true;
@@ -266,7 +220,6 @@ const handleKakaoLogout = () => {
       handleRegister,
       kakaoBtnSrc,
       handleKakaoLogin,
-      handleKakaoLogout,
     };
   },
 };
