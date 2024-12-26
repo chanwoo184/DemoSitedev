@@ -17,7 +17,7 @@
         </nav>
       </div>
       <div class="header-right">
-        <div v-if="user" class="user-id">Welcome🎉 {{ user.id }}</div>
+        <div v-if="user" class="user-id">Welcome🎉 {{ user.nickname }}</div>
         <button class="icon-button" @click="toggleSearch">
           <font-awesome-icon :icon="faSearch" />
         </button>
@@ -97,10 +97,13 @@ export default {
 
     // 현재 사용자 로드
     const loadUser = () => {
-      const currentEmail = localStorage.getItem('currentUserEmail');
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      const matchedUser = users.find(user => user.id === currentEmail);
-      user.value = matchedUser || null;
+      const kakaoProfileStr = localStorage.getItem('kakaoProfile');
+      if (kakaoProfileStr) {
+        // { nickname: "...", profileImg: "..." }
+        user.value = JSON.parse(kakaoProfileStr);
+      } else {
+        user.value = null;
+      }
     };
 
 
@@ -143,6 +146,7 @@ export default {
     const removeKey = () => {
       localStorage.removeItem('TMDb-Key');
       localStorage.removeItem('currentUserEmail');
+      localStorage.removeItem('kakaoProfile'); // 카카오 프로필 삭제
       user.value = null; // 사용자 정보 초기화
       router.push('/signin');
     };
