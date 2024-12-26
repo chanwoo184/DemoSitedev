@@ -135,6 +135,12 @@ const handleKakaoLogin = () => {
           const nickname = res.kakao_account?.profile?.nickname;
           const email = res.kakao_account?.email; // account_email 동의 필수
 
+           // localStorage에 저장 (키 이름은 예시 "kakaoProfile" 등으로)
+          const kakaoProfile = {
+            nickname,
+          };
+        localStorage.setItem('kakaoProfile', JSON.stringify(kakaoProfile));
+
           toast.success(`카카오 로그인 성공! 닉네임: ${nickname}`, { timeout: 2000 });
           
           // 추가로 회원 DB 가입/로그인 로직 등 필요하다면 이곳에서 처리
@@ -153,6 +159,51 @@ const handleKakaoLogin = () => {
       toast.error(`카카오 로그인 실패: ${err.message}`, { timeout: 2000 });
     },
   });
+};
+
+    // 카카오 로그아웃을 위한 메서드
+const handleKakaoLogout = () => {
+  console.log('카카오 로그아웃 버튼 클릭!');
+
+  // Kakao SDK가 초기화되어 있는지 확인
+  if (window.Kakao && window.Kakao.isInitialized()) {
+    // 로그아웃 요청
+    window.Kakao.Auth.logout(() => {
+      console.log('카카오 로그아웃 성공');
+
+      // localStorage에서 토큰 및 프로필 정보 제거
+      localStorage.removeItem('kakaoAccessToken');
+      localStorage.removeItem('kakaoProfile');
+      localStorage.removeItem('TMDb-Key');
+
+      // 로그아웃 성공 메시지 표시
+      toast.success('카카오 로그아웃 성공!', { timeout: 2000 });
+
+      // 원하는 리디렉션 URL로 이동 (예: 로그인 페이지)
+      router.push('/signin'); // 또는 원하는 경로로 변경
+    });
+  } else {
+    console.warn('Kakao SDK가 초기화되지 않았습니다.');
+    // 필요한 경우 SDK를 초기화하거나 사용자에게 알림
+    window.Kakao.init(process.env.VUE_APP_KAKAO_JS_KEY);
+    console.log('Kakao SDK 초기화 완료');
+
+    // 초기화 후 로그아웃 시도
+    window.Kakao.Auth.logout(() => {
+      console.log('카카오 로그아웃 성공');
+
+      // localStorage에서 토큰 및 프로필 정보 제거
+      localStorage.removeItem('kakaoAccessToken');
+      localStorage.removeItem('kakaoProfile');
+      localStorage.removeItem('TMDb-Key');
+
+      // 로그아웃 성공 메시지 표시
+      toast.success('카카오 로그아웃 성공!', { timeout: 2000 });
+
+      // 원하는 리디렉션 URL로 이동 (예: 로그인 페이지)
+      router.push('/signin'); // 또는 원하는 경로로 변경
+    });
+  }
 };
 
 
@@ -215,6 +266,7 @@ const handleKakaoLogin = () => {
       handleRegister,
       kakaoBtnSrc,
       handleKakaoLogin,
+      handleKakaoLogout,
     };
   },
 };
